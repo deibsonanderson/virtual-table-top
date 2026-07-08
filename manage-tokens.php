@@ -1,6 +1,6 @@
 <?php
-$path = "./imagens/mapas/";
-$pagina = "manter-mapas.php";
+$path = "./imagens/tokens/";
+$pagina = "manage-tokens.php";
 
 function removeEspacosEmBranco($valor) {
     $valor = str_replace("%20", "_", $valor);
@@ -9,11 +9,9 @@ function removeEspacosEmBranco($valor) {
 }
 
 if (isset($_FILES['pic'])) {
-    //$ext = strtolower(substr($_FILES['pic']['name'], - 4)); // Pegando extensão do arquivo
     $new_name = strtolower($_FILES['pic']['name']);// . $ext; // Definindo um novo nome para o arquivo
     $new_name = removeEspacosEmBranco($new_name);
     $new_name = str_replace("[^a-zA-Z0-9_.]", "", strtr($new_name, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC_"));
-    
     move_uploaded_file($_FILES['pic']['tmp_name'], $path . $new_name); // Fazer upload do arquivo
 }
 
@@ -28,7 +26,7 @@ if (isset($_GET['pic'])) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mapas - Virtual Table Top</title>
+<title>Tokens - Virtual Table Top</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
@@ -52,25 +50,25 @@ if (isset($_GET['pic'])) {
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						href="./index.php">Sessão</a></li>
-					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
-						href="manter-mapas.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manter-tokens.php">Incluir
-							Tokens</a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						onclick="abrir()" href="#" >Ajuda</a></li>
+						href="manage-maps.php">Incluir Mapas</a></li>
+					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);"
+						href="manage-tokens.php">Incluir Tokens</a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="./anotacao.php">Anotações</a></li>						
+						onclick="openModal()" href="#" >Ajuda</a></li>
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
+						href="./notes.php">Anotações</a></li>												
 				</ul>
-			</div>			
+			</div>
 		</div>
 	</nav>
 
 	<div class="dashboard-container">
 		<div class="dashboard-card">
 			<div class="flex-between" style="margin-bottom: 20px;">
-				<h3 style="margin: 0;">Mapas</h3>
+				<h3 style="margin: 0;">Tokens</h3>
 			</div>
-
+			
 			<form id="myForm" class="row g-2" method="POST" enctype="multipart/form-data" style="margin-bottom: 30px;">
 				<div class="col-8">
 					<input class="obr-input" type="file" id="pic" name="pic" accept="image/*">
@@ -96,16 +94,16 @@ if (isset($_GET['pic'])) {
 					if (is_dir($path)) {
 						$diretorio = dir($path);
 						$count = 1;
-						while ($mapa = $diretorio->read()) {
-							if ($mapa != '.' && $mapa != '..' && $mapa != 'defaut.jpg') {
+						while ($token = $diretorio->read()) {
+							if ($token != '.' && $token != '..') {
 								?>
 								<tr>
 									<th scope="row"><?php echo $count++; ?></th>
-									<td><img src="<?php echo $path.$mapa; ?>" width="80px"
+									<td><img src="<?php echo $path.$token; ?>" width="80px"
 										class="img-thumbnail" alt="..." style="background: transparent; border: 1px solid var(--obr-border);"></td>
-									<td><?php echo $mapa; ?></td>
+									<td><?php echo $token; ?></td>
 									<td>
-										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removerItem('./<?php echo $pagina; ?>?pic=<?php echo $mapa; ?>')"><i class="fa-solid fa-trash"></i> remover</button>
+										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./<?php echo $pagina; ?>?pic=<?php echo $token; ?>')"><i class="fa-solid fa-trash"></i> remover</button>
 									</td>
 								</tr>
 								<?php
@@ -121,12 +119,12 @@ if (isset($_GET['pic'])) {
 	</div>
 
 	<script>
-	function removerItem(link){
+	function removeItem(link){
 		if (window.confirm("Você realmente quer remover ?")) {
 			window.location.href = link;
 		}
 	}
-	</script>
+	</script>	
 	<script src="./js/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
 	<script src="./js/jquery-1.12.4.js"></script>
 	<script src="./js/jquery-ui.js"></script>

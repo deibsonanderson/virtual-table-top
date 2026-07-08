@@ -1,5 +1,5 @@
 <?php
-include ('./banco.php');
+include ('./database.php');
 
 if (isset($_GET['del'])) {
     mysqli_query($conexao, "DELETE FROM anotacao WHERE codigo = '" . $_GET['del'] . "'");
@@ -43,13 +43,13 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						href="./index.php">Sessão</a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="manter-mapas.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manter-tokens.php">Incluir
+						href="manage-maps.php">Incluir Mapas</a></li>
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manage-tokens.php">Incluir
 							Tokens</a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						onclick="abrir()" href="#">Ajuda</a></li>
+						onclick="openModal()" href="#">Ajuda</a></li>
 					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
-						href="./anotacao.php">Anotações</a></li>
+						href="./notes.php">Anotações</a></li>
 				</ul>
 			</div>
 		</div>
@@ -84,7 +84,7 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<button class="obr-btn" onclick="incluir(this);" type="button"><i class="fa-solid fa-check"></i> Salvar</button>
+							<button class="obr-btn" onclick="add(this);" type="button"><i class="fa-solid fa-check"></i> Salvar</button>
 						</div>
 					</div>
 				</div>
@@ -98,7 +98,7 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 				<div style="background: rgba(0,0,0,0.2); border: 1px solid var(--obr-border); border-radius: var(--obr-radius); padding: 15px; margin-bottom: 15px;">
 					<div class="flex-between" style="margin-bottom: 10px;">
 						<h5 style="margin: 0; color: var(--obr-primary);"><?php echo $row["titulo"]; ?></h5>
-						<button type="button" class="obr-btn-icon" style="color: var(--obr-danger);" onclick="removerItem('./anotacao.php?del=<?php echo $row["codigo"]; ?>')" title="Remover"><i class="fa-solid fa-trash"></i></button>
+						<button type="button" class="obr-btn-icon" style="color: var(--obr-danger);" onclick="removeItem('./notes.php?del=<?php echo $row["codigo"]; ?>')" title="Remover"><i class="fa-solid fa-trash"></i></button>
 					</div>
 					<p style="margin: 0; color: var(--obr-text); white-space: pre-wrap;"><?php echo $row["anotacao"]; ?></p>
 				</div>
@@ -109,7 +109,7 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 		</div>
 	</div>
 	<script>
-	function removerItem(link){
+	function removeItem(link){
 		if (window.confirm("Você realmente quer remover ?")) {
 			window.location.href = link;
 		}
@@ -128,7 +128,7 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 		
 	}
 	
-	function incluir(element){
+	function add(element){
 		if($("#titulo").val() != null && $("#titulo").val() != ''){
 			document.getElementById("myform").submit();
 		}else{

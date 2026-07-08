@@ -1,5 +1,5 @@
 <?php
-include('./banco.php');
+include('./database.php');
 if (isset($_GET['del'])) {
     mysqli_query($conexao, "DELETE FROM sessao WHERE codigo = '".$_GET['del']."'");
     mysqli_query($conexao, "DELETE FROM `token` WHERE `sessao` = '".$_GET['del']."'");
@@ -43,13 +43,13 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
 						href="./index.php">Sessão</a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="manter-mapas.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manter-tokens.php">Incluir
+						href="manage-maps.php">Incluir Mapas</a></li>
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manage-tokens.php">Incluir
 							Tokens</a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						onclick="abrir()" href="#" >Ajuda</a></li>
+						onclick="openModal()" href="#" >Ajuda</a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="./anotacao.php">Anotações</a></li>						
+						href="./notes.php">Anotações</a></li>						
 				</ul>
 			</div>			
 		</div>
@@ -66,7 +66,7 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 					<input class="obr-input" type="text" id="nome" name="nome" placeholder="Nome da Sessão">
 				</div>
 				<div class="col-4">
-					<button type="button" onclick="incluir(this);" class="obr-btn w-100"><i class="fa-solid fa-plus"></i> Incluir identificador</button>
+					<button type="button" onclick="add(this);" class="obr-btn w-100"><i class="fa-solid fa-plus"></i> Incluir identificador</button>
 				</div>
 			</form>
 
@@ -94,9 +94,9 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 							<td><?php echo $row["nome"]; ?></td>
 							<td><?php echo $row["data_criacao"]; ?></td>
 							<td><?php echo $row["data_atualizacao"]; ?></td>
-							<td><a href="./mesa-virtual.php?sessao=<?php echo $row["codigo"]; ?>"><i class="fa-solid fa-gamepad"></i> Mesa Virtual</a></td>
+							<td><a href="./virtual-table.php?sessao=<?php echo $row["codigo"]; ?>"><i class="fa-solid fa-gamepad"></i> Mesa Virtual</a></td>
 							<td>
-								<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removerItem('./?del=<?php echo $row["codigo"]; ?>')"><i class="fa-solid fa-trash"></i> remover</button>        					
+								<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./?del=<?php echo $row["codigo"]; ?>')"><i class="fa-solid fa-trash"></i> remover</button>        					
 							</td>
 						</tr>
 					<?php
@@ -109,13 +109,13 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 	</div>
 
 	<script>
-	function removerItem(link){
+	function removeItem(link){
 		if (window.confirm("Você realmente quer remover ?")) {
 			window.location.href = link;
 		}
 	}
 
-	function incluir(element){
+	function add(element){
 		if($("#nome").val() != null && $("#nome").val() != ''){
 			document.getElementById("myForm").submit();
 		}else{
