@@ -322,7 +322,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 		</div>
 
 		<!-- UI Toggle Button -->
-		<div class="floating-panel-top-left obr-panel" style="padding: 5px;">
+		<div class="floating-panel-bottom-left obr-panel" style="padding: 5px;">
 			<button class="obr-btn-icon" onclick="toggleUI()" title="Alternar Interface">
 				<i id="toggle-ui-icon" class="fa-solid fa-eye"></i>
 			</button>
