@@ -19,87 +19,92 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sessão</title>
+<title>Anotações - Virtual Table Top</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
+<!-- FontAwesome for modern icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Custom Owlbear Theme -->
+<link rel="stylesheet" href="./css/owlbear-theme.css">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg bg-light">
+	<nav class="navbar navbar-expand-lg" style="background-color: var(--obr-panel-bg) !important; border-bottom: 1px solid var(--obr-border);">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Virtual Table Top</a>
+			<a class="navbar-brand" href="#" style="color: var(--obr-text);">Virtual Table Top</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggler-icon" style="filter: invert(1);"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						href="./index.php">Sessão</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						href="manter-mapas.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" href="manter-tokens.php">Incluir
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manter-tokens.php">Incluir
 							Tokens</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						onclick="abrir()" href="#">Ajuda</a></li>
-					<li class="nav-item"><a class="nav-link active" aria-current="page"
+					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
 						href="./anotacao.php">Anotações</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
-	<div class="container text-center">
-		<form id="myform" class="row g-2" method="POST"	enctype="multipart/form-data">
-			<div class="row">
-				<p class="h3">Anotação</p>
+	<div class="dashboard-container">
+		<div class="dashboard-card">
+			<div class="flex-between" style="margin-bottom: 20px;">
+				<h3 style="margin: 0;">Anotações</h3>
 			</div>
-			<div class="row justify-content-center">
-				<div class="col-6">
-					<button class="btn btn-primary" type="button"
-						data-toggle="collapse" data-target="#collapseExample"
-						aria-expanded="false" aria-controls="collapseExample" onclick="showHide(this)">Campos</button>
-				</div>
-			</div>
-			<div id="collapseExample" class="collapse">
-				<div class="row justify-content-center">
-					<div class="col-6">
-						<label for="titulo" class="form-label">Título</label>
-						<input type="text" name="titulo" id="titulo" class="form-control" placeholder="">
+
+			<form id="myform" class="row g-2" method="POST" enctype="multipart/form-data">
+				<div class="row justify-content-start">
+					<div class="col-12" style="margin-bottom: 15px;">
+						<button class="obr-btn" type="button"
+							data-toggle="collapse" data-target="#collapseExample"
+							aria-expanded="false" aria-controls="collapseExample" onclick="showHide(this)"><i class="fa-solid fa-plus"></i> Nova Anotação</button>
 					</div>
 				</div>
-				<div class="row justify-content-center">
-					<div class="col-6">
-						<label for="anotacao" class="form-label">Anotação</label>
-						<textarea class="form-control" name="anotacao" id="anotacao" rows="3"></textarea>
+				<div id="collapseExample" class="collapse" style="width: 100%; margin-bottom: 20px; padding: 15px; border: 1px solid var(--obr-border); border-radius: var(--obr-radius);">
+					<div class="row">
+						<div class="col-12" style="margin-bottom: 15px;">
+							<label for="titulo" class="form-label" style="color: var(--obr-text-muted);">Título</label>
+							<input type="text" name="titulo" id="titulo" class="obr-input" placeholder="">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12" style="margin-bottom: 15px;">
+							<label for="anotacao" class="form-label" style="color: var(--obr-text-muted);">Anotação</label>
+							<textarea class="obr-input" name="anotacao" id="anotacao" rows="3" style="resize: vertical;"></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<button class="obr-btn" onclick="incluir(this);" type="button"><i class="fa-solid fa-check"></i> Salvar</button>
+						</div>
 					</div>
 				</div>
-				<div class="row justify-content-center">
-					<div class="col-6">
-						<br />
-						<button class="btn btn-primary" onclick="incluir(this);" type="button">Incluir</button>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="container ">
-		<br />
-		<div class="row">
-			<div class="col-6">
+			</form>
+
+			<div style="margin-top: 20px;">
 				<?php
 				$count = 1;
 				while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){				    
-                ?>
-				<p>
-					<b><?php echo $row["titulo"]; ?></b><br /><?php echo $row["anotacao"]; ?>
-					<br/><a href="#"  onclick="removerItem('./anotacao.php?del=<?php echo $row["codigo"]; ?>')">remover</a>
-				</p>
+				?>
+				<div style="background: rgba(0,0,0,0.2); border: 1px solid var(--obr-border); border-radius: var(--obr-radius); padding: 15px; margin-bottom: 15px;">
+					<div class="flex-between" style="margin-bottom: 10px;">
+						<h5 style="margin: 0; color: var(--obr-primary);"><?php echo $row["titulo"]; ?></h5>
+						<button type="button" class="obr-btn-icon" style="color: var(--obr-danger);" onclick="removerItem('./anotacao.php?del=<?php echo $row["codigo"]; ?>')" title="Remover"><i class="fa-solid fa-trash"></i></button>
+					</div>
+					<p style="margin: 0; color: var(--obr-text); white-space: pre-wrap;"><?php echo $row["anotacao"]; ?></p>
+				</div>
 				<?php
-                }
-                ?>				
+				}
+				?>				
 			</div>
 		</div>
 	</div>

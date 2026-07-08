@@ -16,6 +16,10 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
+<!-- FontAwesome for modern icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Custom Owlbear Theme -->
+<link rel="stylesheet" href="./css/owlbear-theme.css">
 <title>Cenário RPG Virtual</title>
 <link rel="stylesheet" href="./css/jquery-ui.css">
 <style>
@@ -314,85 +318,83 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 </head>
 <body>
 	<input type="hidden" id="data_atualizacao" name="data_atualizacao" value="<?php echo $row["data_atualizacao"]; ?>"> 
-	<nav class="navbar navbar-expand-lg bg-light">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Virtual Table Top</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active" aria-current="page"
-						href="./index.php">Sessão</a></li>				
-					<li class="nav-item"><a class="nav-link " aria-current="page"
-						href="manter-mapas.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" href="manter-tokens.php">Incluir
-							Tokens</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
-						onclick="abrir()" href="#" >Ajuda</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
-						href="./anotacao.php">Anotações</a></li>												
-				</ul>
-			</div>			
+	
+	<div class="vtt-container">
+		<!-- Map Layer -->
+		<div class="vtt-map-layer">
+			<img id="mapa" width="<?php echo $row["zoom"]; ?>px" src="./imagens/mapas/<?php echo $row["mapa"]; ?>">
 		</div>
-	</nav>
-    <div class="container text-center">
-		<div class="row">
-			<div class="col-6">
-    			<div class="row">
-    				<div class="col-sm-4">
-    					<select id="personagem" name="personagem" class="form-select" aria-label="">
-    						<option value='' >Selecione um token</option>
-    						<?php 
-    						if (is_dir('./'.$tokensPath)) {
-    						    $dirTokens = dir('./'.$tokensPath);
-    						    while ($token = $dirTokens->read()) {
-    						        if ($token != '.' && $token != '..') {
-    						            echo "<option value='".$token."' >".$token."</option>";
-    						        }
-    						    }
-    						    $dirTokens->close();
-    						}
-    						?>
-    					</select>
-    				</div>
-    				<div class="col-sm-4">
-    				<input class="form-control" type="text" id="title" name="title" >
-    				</div>
-    				<div class="col-sm-4">
-    					<button type="button" class=" btn btn-primary" onclick="create(getCode(), <?php echo $sessao; ?>);">Incluir Token</button>
-    				</div>    						 				
-				</div>
+
+		<!-- Left Toolbar -->
+		<div class="floating-toolbar-left obr-panel">
+			<a href="./index.php" class="obr-btn-icon" title="Sessões"><i class="fa-solid fa-house"></i></a>
+			<a href="manter-mapas.php" class="obr-btn-icon" title="Incluir Mapas"><i class="fa-solid fa-map"></i></a>
+			<a href="manter-tokens.php" class="obr-btn-icon" title="Incluir Tokens"><i class="fa-solid fa-chess-knight"></i></a>
+			<a href="./anotacao.php" class="obr-btn-icon" title="Anotações"><i class="fa-solid fa-book"></i></a>
+			<button class="obr-btn-icon" onclick="abrir()" title="Ajuda"><i class="fa-solid fa-circle-info"></i></button>
+		</div>
+
+		<!-- Top Right Panel: Tokens & Maps -->
+		<div class="floating-panel-top-right obr-panel">
+			<div style="display: flex; flex-direction: column; gap: 10px;">
+				<h6 style="margin: 0; font-size: 14px; color: var(--obr-text-muted);">Tokens</h6>
+				<select id="personagem" name="personagem" class="obr-select">
+					<option value=''>Selecione um token</option>
+					<?php 
+					if (is_dir('./'.$tokensPath)) {
+						$dirTokens = dir('./'.$tokensPath);
+						while ($token = $dirTokens->read()) {
+							if ($token != '.' && $token != '..') {
+								echo "<option value='".$token."' >".$token."</option>";
+							}
+						}
+						$dirTokens->close();
+					}
+					?>
+				</select>
+				<input class="obr-input" type="text" id="title" name="title" placeholder="Nome do token">
+				<button type="button" class="obr-btn" onclick="create(getCode(), <?php echo $sessao; ?>);">
+					<i class="fa-solid fa-plus"></i> Incluir Token
+				</button>
 			</div>
-			<div class="col-2">
-    			<select id="mapas" name="mapas" class="form-select" onChange="maps(<?php echo $sessao; ?>)" aria-label="">
-    				<option value="defaut.jpg" >Selecione um Mapa</option>
-    				<?php 
-    				if (is_dir($mapasPath)) {
-    				    $dirMapas = dir($mapasPath);
-    				    while ($mapa = $dirMapas->read()) {
-    				        if ($mapa != '.' && $mapa != '..') {
-    				            echo "<option value='".$mapa."' >".$mapa."</option>";
-    				        }
-    				    }
-    				    $dirMapas->close();
-    				}
-    				?>
-    			</select>			
+			
+			<hr style="border-color: var(--obr-border); margin: 0;">
+
+			<div style="display: flex; flex-direction: column; gap: 10px;">
+				<h6 style="margin: 0; font-size: 14px; color: var(--obr-text-muted);">Mapa</h6>
+				<select id="mapas" name="mapas" class="obr-select" onChange="maps(<?php echo $sessao; ?>)">
+					<option value="defaut.jpg">Selecione um Mapa</option>
+					<?php 
+					if (is_dir($mapasPath)) {
+						$dirMapas = dir($mapasPath);
+						while ($mapa = $dirMapas->read()) {
+							if ($mapa != '.' && $mapa != '..') {
+								echo "<option value='".$mapa."' >".$mapa."</option>";
+							}
+						}
+						$dirMapas->close();
+					}
+					?>
+				</select>
 			</div>
-			<div class="col-4">
-				<button type="button" class="btn btn-success" onclick="getNotes(<?php echo $sessao; ?>);">Sicronizar</button>
-				<button type="button" class="btn btn-success" onclick="zoom(1, <?php echo $sessao; ?>)">-</button>
-				<button type="button" class="btn btn-success" onclick="zoom(2, <?php echo $sessao; ?>);">+</button>
-				<span id="view-zoom"><?php echo $row["zoom"]; ?>px</span>
-			</div>				
-		</div>		
-    </div>
-    <img id="mapa" width="<?php echo $row["zoom"]; ?>px" src="./imagens/mapas/<?php echo $row["mapa"]; ?>">
-	<!-- div id="main"></div-->
+		</div>
+
+		<!-- Bottom Right Panel: Zoom & Sync -->
+		<div class="floating-panel-bottom-right obr-panel">
+			<button type="button" class="obr-btn-icon" onclick="zoom(1, <?php echo $sessao; ?>)" title="Diminuir Zoom">
+				<i class="fa-solid fa-minus"></i>
+			</button>
+			<span id="view-zoom" class="zoom-display"><?php echo $row["zoom"]; ?>px</span>
+			<button type="button" class="obr-btn-icon" onclick="zoom(2, <?php echo $sessao; ?>)" title="Aumentar Zoom">
+				<i class="fa-solid fa-plus"></i>
+			</button>
+			<div style="width: 1px; height: 24px; background: var(--obr-border); margin: 0 10px;"></div>
+			<button type="button" class="obr-btn" onclick="getNotes(<?php echo $sessao; ?>);" title="Sincronizar Manualmente">
+				<i class="fa-solid fa-rotate"></i> Sincronizar
+			</button>
+		</div>
+	</div>
+
 	<script src="./js/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
 
 	<?php include('./modal.php'); ?>

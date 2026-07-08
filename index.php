@@ -19,88 +19,95 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sessão</title>
+<title>Sessão - Virtual Table Top</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
+<!-- FontAwesome for modern icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Custom Owlbear Theme -->
+<link rel="stylesheet" href="./css/owlbear-theme.css">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg bg-light">
+	<nav class="navbar navbar-expand-lg" style="background-color: var(--obr-panel-bg) !important; border-bottom: 1px solid var(--obr-border);">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Virtual Table Top</a>
+			<a class="navbar-brand" href="#" style="color: var(--obr-text);">Virtual Table Top</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggler-icon" style="filter: invert(1);"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active" aria-current="page"
+					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
 						href="./index.php">Sessão</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						href="manter-mapas.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" href="manter-tokens.php">Incluir
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manter-tokens.php">Incluir
 							Tokens</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						onclick="abrir()" href="#" >Ajuda</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						href="./anotacao.php">Anotações</a></li>						
 				</ul>
 			</div>			
 		</div>
 	</nav>
 
-	<div class="container text-center">
-		<div class="row">
-			<p class="h3">Sessões</p>		
-		</div>
-		<div class="row">
-			<form id="myForm" class="row g-2" method="POST" enctype="multipart/form-data">
+	<div class="dashboard-container">
+		<div class="dashboard-card">
+			<div class="flex-between" style="margin-bottom: 20px;">
+				<h3 style="margin: 0;">Sessões</h3>
+			</div>
+			
+			<form id="myForm" class="row g-2" method="POST" enctype="multipart/form-data" style="margin-bottom: 30px;">
 				<div class="col-8">
-					<input class="form-control" type="text" id="nome"
-						name="nome" >
+					<input class="obr-input" type="text" id="nome" name="nome" placeholder="Nome da Sessão">
 				</div>
 				<div class="col-4">
-					<button type="button" onclick="incluir(this);" class="btn btn-primary mb-3">Incluir identificador</button>
+					<button type="button" onclick="incluir(this);" class="obr-btn w-100"><i class="fa-solid fa-plus"></i> Incluir identificador</button>
 				</div>
 			</form>
-		</div>
-		<div class="row">
-			<table class="table">
-				<thead>
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Codigo</th>
-						<th scope="col">Nome</th>
-						<th scope="col">Data da criação</th>
-						<th scope="col">Link</th>
-						<th scope="col">Ação</th>
-					</tr>
-				</thead>
-				<tbody>
-				<?php
-				$count = 1;
-				while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){				    
-                ?>
-        			<tr>
-    					<th scope="row"><?php echo $count++;?></th>
-    					<td><?php echo $row["codigo"]; ?></td>
-    					<td><?php echo $row["nome"]; ?></td>
-    					<td><?php echo $row["data_criacao"]; ?></td>
-    					<td><?php echo $row["data_atualizacao"]; ?></td>
-    					<td><a href="./mesa-virtual.php?sessao=<?php echo $row["codigo"]; ?>">Mesa Virtual</a></td>
-    					<td>
-        					<button type="button" class="btn btn-danger" onclick="removerItem('./?del=<?php echo $row["codigo"]; ?>')">remover</button>        					
-    					</td>
-					</tr>
-				<?php
-                }
-                ?>
-				</tbody>
-			</table>
+
+			<div style="overflow-x: auto;">
+				<table class="dashboard-table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Codigo</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Data da criação</th>
+							<th scope="col">Atualização</th>
+							<th scope="col">Link</th>
+							<th scope="col">Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php
+					$count = 1;
+					while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){				    
+					?>
+						<tr>
+							<th scope="row"><?php echo $count++;?></th>
+							<td><?php echo $row["codigo"]; ?></td>
+							<td><?php echo $row["nome"]; ?></td>
+							<td><?php echo $row["data_criacao"]; ?></td>
+							<td><?php echo $row["data_atualizacao"]; ?></td>
+							<td><a href="./mesa-virtual.php?sessao=<?php echo $row["codigo"]; ?>"><i class="fa-solid fa-gamepad"></i> Mesa Virtual</a></td>
+							<td>
+								<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removerItem('./?del=<?php echo $row["codigo"]; ?>')"><i class="fa-solid fa-trash"></i> remover</button>        					
+							</td>
+						</tr>
+					<?php
+					}
+					?>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
+
 	<script>
 	function removerItem(link){
 		if (window.confirm("Você realmente quer remover ?")) {

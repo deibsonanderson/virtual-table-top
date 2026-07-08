@@ -28,92 +28,98 @@ if (isset($_GET['pic'])) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mapas</title>
+<title>Mapas - Virtual Table Top</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
+<!-- FontAwesome for modern icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Custom Owlbear Theme -->
+<link rel="stylesheet" href="./css/owlbear-theme.css">
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-lg bg-light">
+	<nav class="navbar navbar-expand-lg" style="background-color: var(--obr-panel-bg) !important; border-bottom: 1px solid var(--obr-border);">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="index.php">Virtual Table Top</a>
+			<a class="navbar-brand" href="index.php" style="color: var(--obr-text);">Virtual Table Top</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggler-icon" style="filter: invert(1);"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						href="./index.php">Sessão</a></li>
-					<li class="nav-item"><a class="nav-link active" aria-current="page"
+					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
 						href="manter-mapas.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" href="manter-tokens.php">Incluir
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manter-tokens.php">Incluir
 							Tokens</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						onclick="abrir()" href="#" >Ajuda</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
 						href="./anotacao.php">Anotações</a></li>						
 				</ul>
 			</div>			
 		</div>
 	</nav>
 
-	<div class="container text-center">
-		<div class="row">
-			<p class="h3">Mapas</p>		
-		</div>
-		<div class="row">
-			<form id="myForm" class="row g-2" method="POST" enctype="multipart/form-data">
+	<div class="dashboard-container">
+		<div class="dashboard-card">
+			<div class="flex-between" style="margin-bottom: 20px;">
+				<h3 style="margin: 0;">Mapas</h3>
+			</div>
+
+			<form id="myForm" class="row g-2" method="POST" enctype="multipart/form-data" style="margin-bottom: 30px;">
 				<div class="col-8">
-					<input class="form-control" type="file" id="pic"
-						name="pic" accept="image/*">
+					<input class="obr-input" type="file" id="pic" name="pic" accept="image/*">
 				</div>
 				<div class="col-4">
-					<button type="submit" class="btn btn-primary mb-3">Enviar imagem</button>
+					<button type="submit" class="obr-btn w-100"><i class="fa-solid fa-upload"></i> Enviar imagem</button>
 				</div>
 			</form>
-		</div>
-		<div class="row">
-			<table class="table">
-				<thead>
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Previa</th>
-						<th scope="col">Nome</th>
-						<th scope="col">Ação</th>
-					</tr>
-				</thead>
-				<tbody>
-				<?php
 
-                if (is_dir($path)) {
-                    $diretorio = dir($path);
-                    $count = 1;
-                    while ($mapa = $diretorio->read()) {
-                        if ($mapa != '.' && $mapa != '..' && $mapa != 'defaut.jpg') {
-                            ?>
-                    			<tr>
-            						<th scope="row"><?php echo $count++; ?></th>
-            						<td><img src="<?php echo $path.$mapa; ?>" width="80px"
-            							class="img-thumbnail" alt="..."></td>
-            						<td><?php echo $mapa; ?></td>
-            						<td>
-            							<button type="button" class="btn btn-danger" onclick="removerItem('./<?php echo $pagina; ?>?pic=<?php echo $mapa; ?>')">remover</button>
-            						</td>
-            					</tr>
-            				<?php
-                        }
-                    }
-                    $diretorio->close();
-                }
-                ?>
-				</tbody>
-			</table>
+			<div style="overflow-x: auto;">
+				<table class="dashboard-table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Prévia</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php
+
+					if (is_dir($path)) {
+						$diretorio = dir($path);
+						$count = 1;
+						while ($mapa = $diretorio->read()) {
+							if ($mapa != '.' && $mapa != '..' && $mapa != 'defaut.jpg') {
+								?>
+								<tr>
+									<th scope="row"><?php echo $count++; ?></th>
+									<td><img src="<?php echo $path.$mapa; ?>" width="80px"
+										class="img-thumbnail" alt="..." style="background: transparent; border: 1px solid var(--obr-border);"></td>
+									<td><?php echo $mapa; ?></td>
+									<td>
+										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removerItem('./<?php echo $pagina; ?>?pic=<?php echo $mapa; ?>')"><i class="fa-solid fa-trash"></i> remover</button>
+									</td>
+								</tr>
+								<?php
+							}
+						}
+						$diretorio->close();
+					}
+					?>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
+
 	<script>
 	function removerItem(link){
 		if (window.confirm("Você realmente quer remover ?")) {
