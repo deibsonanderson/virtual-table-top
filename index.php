@@ -1,18 +1,18 @@
 <?php
 include('./database.php');
 if (isset($_GET['del'])) {
-    mysqli_query($conexao, "DELETE FROM sessao WHERE codigo = '".$_GET['del']."'");
-    mysqli_query($conexao, "DELETE FROM `token` WHERE `sessao` = '".$_GET['del']."'");
+    mysqli_query($connection, "DELETE FROM sessao WHERE codigo = '".$_GET['del']."'");
+    mysqli_query($connection, "DELETE FROM `token` WHERE `sessao` = '".$_GET['del']."'");
 }
 
 if (isset($_POST['nome'])) {
     $date = new DateTime();
     $sql = "INSERT INTO `sessao` (`codigo`, `nome`, `data_criacao`, `data_atualizacao`, `zoom`, `mapa`) VALUES ";
     $sql .= " ('".$date->getTimestamp()."', '".$_POST['nome']."', NOW(), NOW(), '1000', 'defaut.jpg'); ";
-    mysqli_query($conexao, $sql);
+    mysqli_query($connection, $sql);
 }
 
-$query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, '%d/%m/%Y %H:%i:%s') as data_criacao, date_format(data_atualizacao, '%d/%m/%Y %H:%i:%s') as data_atualizacao  FROM sessao ");
+$query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criacao, '%d/%m/%Y %H:%i:%s') as data_criacao, date_format(data_atualizacao, '%d/%m/%Y %H:%i:%s') as data_atualizacao  FROM sessao ");
 ?>
 <!doctype html>
 <html lang="en">
@@ -130,5 +130,5 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 </body>
 </html>
 <?php 
-mysqli_close($conexao);
+mysqli_close($connection);
 ?>

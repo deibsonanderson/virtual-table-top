@@ -1,17 +1,17 @@
 <?php
 $path = "./imagens/mapas/";
-$pagina = "manage-maps.php";
+$page = "manage-maps.php";
 
-function removeEspacosEmBranco($valor) {
-    $valor = str_replace("%20", "_", $valor);
-    $valor = str_replace(" ", "_", $valor);
-    return $valor;
+function removeWhiteSpaces($value) {
+    $value = str_replace("%20", "_", $value);
+    $value = str_replace(" ", "_", $value);
+    return $value;
 }
 
 if (isset($_FILES['pic'])) {
     //$ext = strtolower(substr($_FILES['pic']['name'], - 4)); // Pegando extensão do arquivo
     $new_name = strtolower($_FILES['pic']['name']);// . $ext; // Definindo um novo nome para o arquivo
-    $new_name = removeEspacosEmBranco($new_name);
+    $new_name = removeWhiteSpaces($new_name);
     $new_name = str_replace("[^a-zA-Z0-9_.]", "", strtr($new_name, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC_"));
     
     move_uploaded_file($_FILES['pic']['tmp_name'], $path . $new_name); // Fazer upload do arquivo
@@ -19,7 +19,7 @@ if (isset($_FILES['pic'])) {
 
 if (isset($_GET['pic'])) {
     unlink($path . $_GET['pic']);
-    header("location: " . $pagina);
+    header("location: " . $page);
 }
 
 ?>
@@ -94,24 +94,24 @@ if (isset($_GET['pic'])) {
 					<?php
 
 					if (is_dir($path)) {
-						$diretorio = dir($path);
+						$directory = dir($path);
 						$count = 1;
-						while ($mapa = $diretorio->read()) {
-							if ($mapa != '.' && $mapa != '..' && $mapa != 'defaut.jpg') {
+						while ($map = $directory->read()) {
+							if ($map != '.' && $map != '..' && $map != 'defaut.jpg') {
 								?>
 								<tr>
 									<th scope="row"><?php echo $count++; ?></th>
-									<td><img src="<?php echo $path.$mapa; ?>" width="80px"
+									<td><img src="<?php echo $path.$map; ?>" width="80px"
 										class="img-thumbnail" alt="..." style="background: transparent; border: 1px solid var(--obr-border);"></td>
-									<td><?php echo $mapa; ?></td>
+									<td><?php echo $map; ?></td>
 									<td>
-										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./<?php echo $pagina; ?>?pic=<?php echo $mapa; ?>')"><i class="fa-solid fa-trash"></i> remover</button>
+										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./<?php echo $page; ?>?pic=<?php echo $map; ?>')"><i class="fa-solid fa-trash"></i> remover</button>
 									</td>
 								</tr>
 								<?php
 							}
 						}
-						$diretorio->close();
+						$directory->close();
 					}
 					?>
 					</tbody>

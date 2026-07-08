@@ -1,23 +1,23 @@
 <?php
 $path = "./imagens/tokens/";
-$pagina = "manage-tokens.php";
+$page = "manage-tokens.php";
 
-function removeEspacosEmBranco($valor) {
-    $valor = str_replace("%20", "_", $valor);
-    $valor = str_replace(" ", "_", $valor);
-    return $valor;
+function removeWhiteSpaces($value) {
+    $value = str_replace("%20", "_", $value);
+    $value = str_replace(" ", "_", $value);
+    return $value;
 }
 
 if (isset($_FILES['pic'])) {
     $new_name = strtolower($_FILES['pic']['name']);// . $ext; // Definindo um novo nome para o arquivo
-    $new_name = removeEspacosEmBranco($new_name);
+    $new_name = removeWhiteSpaces($new_name);
     $new_name = str_replace("[^a-zA-Z0-9_.]", "", strtr($new_name, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC_"));
     move_uploaded_file($_FILES['pic']['tmp_name'], $path . $new_name); // Fazer upload do arquivo
 }
 
 if (isset($_GET['pic'])) {
     unlink($path . $_GET['pic']);
-    header("location: " . $pagina);
+    header("location: " . $page);
 }
 
 ?>
@@ -92,9 +92,9 @@ if (isset($_GET['pic'])) {
 					<?php
 
 					if (is_dir($path)) {
-						$diretorio = dir($path);
+						$directory = dir($path);
 						$count = 1;
-						while ($token = $diretorio->read()) {
+						while ($token = $directory->read()) {
 							if ($token != '.' && $token != '..') {
 								?>
 								<tr>
@@ -103,13 +103,13 @@ if (isset($_GET['pic'])) {
 										class="img-thumbnail" alt="..." style="background: transparent; border: 1px solid var(--obr-border);"></td>
 									<td><?php echo $token; ?></td>
 									<td>
-										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./<?php echo $pagina; ?>?pic=<?php echo $token; ?>')"><i class="fa-solid fa-trash"></i> remover</button>
+										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./<?php echo $page; ?>?pic=<?php echo $token; ?>')"><i class="fa-solid fa-trash"></i> remover</button>
 									</td>
 								</tr>
 								<?php
 							}
 						}
-						$diretorio->close();
+						$directory->close();
 					}
 					?>
 					</tbody>

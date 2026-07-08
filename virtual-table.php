@@ -1,10 +1,10 @@
 <?php
-$sessao = $_GET["sessao"];
+$session = $_GET["sessao"];
 $tokensPath = "imagens/tokens/";
-$mapasPath = "./imagens/mapas/";
+$mapsPath = "./imagens/mapas/";
 
 include('./database.php');
-$query = mysqli_query($conexao, "SELECT mapa, zoom, data_atualizacao FROM sessao WHERE codigo = '".$sessao."' ");
+$query = mysqli_query($connection, "SELECT mapa, zoom, data_atualizacao FROM sessao WHERE codigo = '".$session."' ");
 $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 ?>
 <!doctype html>
@@ -42,8 +42,8 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	var path = "server.php"
 
 	$(function() {
-		getNotes(<?php echo $sessao; ?>);		
-		synchronize(<?php echo $sessao; ?>);
+		getNotes(<?php echo $session; ?>);		
+		synchronize(<?php echo $session; ?>);
 	});
 	
 	function getCode(){
@@ -356,7 +356,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 					?>
 				</select>
 				<input class="obr-input" type="text" id="title" name="title" placeholder="Nome do token">
-				<button type="button" class="obr-btn" onclick="create(getCode(), <?php echo $sessao; ?>);">
+				<button type="button" class="obr-btn" onclick="create(getCode(), <?php echo $session; ?>);">
 					<i class="fa-solid fa-plus"></i> Incluir Token
 				</button>
 			</div>
@@ -365,17 +365,17 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 
 			<div style="display: flex; flex-direction: column; gap: 10px;">
 				<h6 style="margin: 0; font-size: 14px; color: var(--obr-text-muted);">Mapa</h6>
-				<select id="mapas" name="mapas" class="obr-select" onChange="maps(<?php echo $sessao; ?>)">
+				<select id="mapas" name="mapas" class="obr-select" onChange="maps(<?php echo $session; ?>)">
 					<option value="defaut.jpg">Selecione um Mapa</option>
 					<?php 
-					if (is_dir($mapasPath)) {
-						$dirMapas = dir($mapasPath);
-						while ($mapa = $dirMapas->read()) {
-							if ($mapa != '.' && $mapa != '..') {
-								echo "<option value='".$mapa."' >".$mapa."</option>";
+					if (is_dir($mapsPath)) {
+						$dirMaps = dir($mapsPath);
+						while ($map = $dirMaps->read()) {
+							if ($map != '.' && $map != '..') {
+								echo "<option value='".$map."' >".$map."</option>";
 							}
 						}
-						$dirMapas->close();
+						$dirMaps->close();
 					}
 					?>
 				</select>
@@ -384,15 +384,15 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 
 		<!-- Bottom Right Panel: Zoom & Sync -->
 		<div class="floating-panel-bottom-right obr-panel">
-			<button type="button" class="obr-btn-icon" onclick="zoom(1, <?php echo $sessao; ?>)" title="Diminuir Zoom">
+			<button type="button" class="obr-btn-icon" onclick="zoom(1, <?php echo $session; ?>)" title="Diminuir Zoom">
 				<i class="fa-solid fa-minus"></i>
 			</button>
 			<span id="view-zoom" class="zoom-display"><?php echo $row["zoom"]; ?>px</span>
-			<button type="button" class="obr-btn-icon" onclick="zoom(2, <?php echo $sessao; ?>)" title="Aumentar Zoom">
+			<button type="button" class="obr-btn-icon" onclick="zoom(2, <?php echo $session; ?>)" title="Aumentar Zoom">
 				<i class="fa-solid fa-plus"></i>
 			</button>
 			<div style="width: 1px; height: 24px; background: var(--obr-border); margin: 0 10px;"></div>
-			<button type="button" class="obr-btn" onclick="getNotes(<?php echo $sessao; ?>);" title="Sincronizar Manualmente">
+			<button type="button" class="obr-btn" onclick="getNotes(<?php echo $session; ?>);" title="Sincronizar Manualmente">
 				<i class="fa-solid fa-rotate"></i> Sincronizar
 			</button>
 		</div>
@@ -404,5 +404,5 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 </body>
 </html>
 <?php 
-mysqli_close($conexao);
+mysqli_close($connection);
 ?>

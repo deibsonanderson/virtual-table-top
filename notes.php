@@ -2,16 +2,16 @@
 include ('./database.php');
 
 if (isset($_GET['del'])) {
-    mysqli_query($conexao, "DELETE FROM anotacao WHERE codigo = '" . $_GET['del'] . "'");
+    mysqli_query($connection, "DELETE FROM anotacao WHERE codigo = '" . $_GET['del'] . "'");
 }
 
 if (isset($_POST['titulo'])) {
     $sql = "INSERT INTO `anotacao` (`titulo`, `anotacao`, `data_cadastro`) VALUES ";
     $sql .= " ('" . $_POST['titulo'] . "', '" . $_POST['anotacao'] . "', NOW()); ";
-    mysqli_query($conexao, $sql);
+    mysqli_query($connection, $sql);
 }
 
-$query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(data_cadastro, '%d/%m/%Y %H:%i:%s') as data_cadastro FROM anotacao ");
+$query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format(data_cadastro, '%d/%m/%Y %H:%i:%s') as data_cadastro FROM anotacao ");
 
 ?>
 <!doctype html>
@@ -143,5 +143,5 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 </body>
 </html>
 <?php
- mysqli_close($conexao);
+ mysqli_close($connection);
 ?>
