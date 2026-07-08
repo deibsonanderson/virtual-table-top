@@ -1,5 +1,5 @@
 <?php
-include ('./bandeira/banco.php');
+include ('./banco.php');
 
 if (isset($_GET['del'])) {
     mysqli_query($conexao, "DELETE FROM anotacao WHERE codigo = '" . $_GET['del'] . "'");
@@ -22,10 +22,7 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 <title>Sessão</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="./bandeira/bootstrap-5.2.0-dist/css/bootstrap.css">
-<script src="jquery-1.12.4.js"></script>
-<script src="jquery-ui.js"></script>
+<link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-light">
@@ -45,8 +42,6 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 						href="manter-mapas.php">Incluir Mapas</a></li>
 					<li class="nav-item"><a class="nav-link" href="manter-tokens.php">Incluir
 							Tokens</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
-						href="./bandeira/manter-fichas.php">Incluir Fichas (ABEA)</a></li>
 					<li class="nav-item"><a class="nav-link" aria-current="page"
 						onclick="abrir()" href="#">Ajuda</a></li>
 					<li class="nav-item"><a class="nav-link active" aria-current="page"
@@ -136,8 +131,9 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 		}
 	}
 	</script>
-	<script
-		src="./bandeira/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
+	<script src="./js/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
+	<script src="./js/jquery-1.12.4.js"></script>
+	<script src="./js/jquery-ui.js"></script>
 	<?php include('./modal.php'); ?>
 </body>
 </html>

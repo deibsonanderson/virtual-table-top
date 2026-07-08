@@ -6,13 +6,14 @@ function debug($value){
 	die();
 }
 
-include('./bandeira/banco.php');
+include('./banco.php');
 
 if(isset($_POST)){	
 	switch($_POST["tipo"]){
 		case('get'):
 		    $query = mysqli_query($conexao, "SELECT * FROM token WHERE sessao = '".$_POST["sessao"]."' ");
-		    while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){		
+		    $html = '';
+			while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){		
 		        $html .=  '<div id="box-'.$row["codigo"].'" sessao="'.$row["sessao"].'" titulo="'.$row["titulo"].'" class="ui-widget-content box"
     						style="cursor: pointer; width: '.$row["width_posicao"].'px;
     						height: '.$row["height_posicao"].'px; top: '.$row["top_posicao"].'px;

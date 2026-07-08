@@ -1,5 +1,5 @@
 <?php
-include('./bandeira/banco.php');
+include('./banco.php');
 if (isset($_GET['del'])) {
     mysqli_query($conexao, "DELETE FROM sessao WHERE codigo = '".$_GET['del']."'");
     mysqli_query($conexao, "DELETE FROM `token` WHERE `sessao` = '".$_GET['del']."'");
@@ -22,9 +22,7 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 <title>Sessão</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="./bandeira/bootstrap-5.2.0-dist/css/bootstrap.css">
-<script src="jquery-1.12.4.js"></script>
-<script src="jquery-ui.js"></script>
+<link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-light">
@@ -44,8 +42,6 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 						href="manter-mapas.php">Incluir Mapas</a></li>
 					<li class="nav-item"><a class="nav-link" href="manter-tokens.php">Incluir
 							Tokens</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
-						href="./bandeira/manter-fichas.php">Incluir Fichas (ABEA)</a></li>			
 					<li class="nav-item"><a class="nav-link" aria-current="page"
 						onclick="abrir()" href="#" >Ajuda</a></li>
 					<li class="nav-item"><a class="nav-link" aria-current="page"
@@ -95,7 +91,7 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
     					<td><?php echo $row["data_atualizacao"]; ?></td>
     					<td><a href="./mesa-virtual.php?sessao=<?php echo $row["codigo"]; ?>">Mesa Virtual</a></td>
     					<td>
-        					<button type="button" class="btn btn-danger" onclick="removerItem('./<?php echo $pagina; ?>?del=<?php echo $row["codigo"]; ?>')">remover</button>        					
+        					<button type="button" class="btn btn-danger" onclick="removerItem('./?del=<?php echo $row["codigo"]; ?>')">remover</button>        					
     					</td>
 					</tr>
 				<?php
@@ -120,7 +116,9 @@ $query = mysqli_query($conexao, "SELECT codigo, nome, date_format(data_criacao, 
 		}
 	}
 	</script>
-	<script src="./bandeira/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
+	<script src="./js/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
+	<script src="./js/jquery-1.12.4.js"></script>
+	<script src="./js/jquery-ui.js"></script>
 	<?php include('./modal.php'); ?>
 </body>
 </html>

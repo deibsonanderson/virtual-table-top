@@ -5,7 +5,7 @@ $sessao = $_GET["sessao"];
 $tokensPath = "imagens/tokens/";
 $mapasPath = "./imagens/mapas/";
 
-include('./bandeira/banco.php');
+include('./banco.php');
 $query = mysqli_query($conexao, "SELECT mapa, zoom, data_atualizacao FROM sessao WHERE codigo = '".$sessao."' ");
 $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 ?>
@@ -15,9 +15,9 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="favicon.ico" />
-<link rel="stylesheet" href="./bandeira/bootstrap-5.2.0-dist/css/bootstrap.css">
+<link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
 <title>Cenário RPG Virtual</title>
-<link rel="stylesheet" href="jquery-ui.css">
+<link rel="stylesheet" href="./css/jquery-ui.css">
 <style>
 .box {
 	width: 50px;
@@ -31,9 +31,9 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	text-shadow: 0.1em 0.1em 0.05em #333;
 }
 </style>
-<script src="jquery-1.12.4.js"></script>
-<script src="jquery-ui.js"></script>
-<script src="jquery.ui.touch-punch.js"></script>
+<script src="./js/jquery-1.12.4.js"></script>
+<script src="./js/jquery-ui.js"></script>
+<script src="./js/jquery.ui.touch-punch.js"></script>
 <script>
 	
 	var token = "";
@@ -329,8 +329,6 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 					<li class="nav-item"><a class="nav-link" href="manter-tokens.php">Incluir
 							Tokens</a></li>
 					<li class="nav-item"><a class="nav-link" aria-current="page"
-						href="./bandeira/manter-fichas.php">Incluir Fichas (ABEA)</a></li>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
 						onclick="abrir()" href="#" >Ajuda</a></li>
 					<li class="nav-item"><a class="nav-link" aria-current="page"
 						href="./anotacao.php">Anotações</a></li>												
@@ -392,7 +390,8 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     </div>
     <img id="mapa" width="<?php echo $row["zoom"]; ?>px" src="./imagens/mapas/<?php echo $row["mapa"]; ?>">
 	<!-- div id="main"></div-->
-	<script src="./bandeira/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
+	<script src="./js/bootstrap-5.2.0-dist/js/bootstrap.bundle.min.js"></script>
+
 	<?php include('./modal.php'); ?>
 </body>
 </html>
