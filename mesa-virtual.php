@@ -1,6 +1,4 @@
 <?php
-//session_start();
-//unset($_SESSION['cenario']);
 $sessao = $_GET["sessao"];
 $tokensPath = "imagens/tokens/";
 $mapasPath = "./imagens/mapas/";
@@ -90,11 +88,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 			maxWidth : 200,
 			minHeight : 50,
 			minWidth : 50,
-			resize : function() {
-				//var x = $(this).position();
-				//var width = $(this).width();
-				//var height = $(this).height();
-			},
+			resize : function() {},
 			stop : function() {
 				update(codeBox, this);
 			}			
@@ -131,10 +125,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	
 	function update(codeBox, element){
 	    var position = $(element).position();
-		//var color = $(element).css("background-color");
 		var imagem = $(element).css("background-image");
-		//imagem = imagem.replace('url("http://localhost/virtual-table-top/<?php echo $tokensPath; ?>', '');
-		//imagem = imagem.replace('url("http://dicaseprogramacao.com.br/virtual-table-top/<?php echo $tokensPath; ?>', '');
 		imagem = imagem.replace('url("https://rpg.elainelalegourmet.com.br/virtual-table-top/<?php echo $tokensPath; ?>', '');
 		imagem = imagem.replace('")', '');
 		imagem = imagem.substr(0, (imagem.length-2));
@@ -149,7 +140,6 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 			  code: codeBox,
 			  titulo: titulo,
 			  sessao: sessao,
-			  //color: rgb2hex(color),
 			  description: $("#area-"+codeBox).val(),
 			  user: 1,
 			  top: parseInt(position.top),
@@ -204,12 +194,8 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     
             $("#box-"+codeBox).css("top",40);
             $("#box-"+codeBox).css("left",40);
-    		//var color = getRandomColor();
-    		//$("#box-"+codeBox).css("background-color", color);	
     		var person = $('#personagem').children("option:selected").val();
     		$("#box-"+codeBox).css("background-image", 'url(<?php echo './'.$tokensPath; ?>' + person + ')');	
-    		//$("#area-"+codeBox).css("background-color", color);	
-    		
     		
     		$.ajax({
     			url: path,
@@ -220,7 +206,6 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     			  code: codeBox,
     			  titulo: titulo,
     			  sessao: sessao,
-    			  //color: color.replace("#", ""),
     			  description: "",
     			  user: 1,
     			  top: 40,
@@ -269,7 +254,6 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	
 	function maps(sessao){
 		var map = $('#mapas').children("option:selected").val();
-		//$('#main').css("background-image", 'url(./imagens/mapas/' + map + ')');
 		$('#mapa').attr('src', './imagens/mapas/' + map + '');
 		$.ajax({
         	url: path,
@@ -314,6 +298,18 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
         });
 		var size = $('#view-zoom').html(number+'px');	
 	}
+
+	function toggleUI() {
+		var panels = $('.floating-toolbar-left, .floating-panel-top-right, .floating-panel-bottom-right');
+		var icon = $('#toggle-ui-icon');
+		if (panels.is(':visible')) {
+			panels.hide();
+			icon.removeClass('fa-eye').addClass('fa-eye-slash');
+		} else {
+			panels.show();
+			icon.removeClass('fa-eye-slash').addClass('fa-eye');
+		}
+	}
 </script>
 </head>
 <body>
@@ -323,6 +319,13 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 		<!-- Map Layer -->
 		<div class="vtt-map-layer">
 			<img id="mapa" width="<?php echo $row["zoom"]; ?>px" src="./imagens/mapas/<?php echo $row["mapa"]; ?>">
+		</div>
+
+		<!-- UI Toggle Button -->
+		<div class="floating-panel-top-left obr-panel" style="padding: 5px;">
+			<button class="obr-btn-icon" onclick="toggleUI()" title="Alternar Interface">
+				<i id="toggle-ui-icon" class="fa-solid fa-eye"></i>
+			</button>
 		</div>
 
 		<!-- Left Toolbar -->

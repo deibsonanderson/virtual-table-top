@@ -49,6 +49,13 @@ body {
 }
 
 /* Floating UI Layouts */
+.floating-panel-top-left {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1001; /* Above other UI so it is always accessible */
+}
+
 .floating-toolbar-left {
   position: absolute;
   top: 50%;

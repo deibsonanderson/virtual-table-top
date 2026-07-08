@@ -9,8 +9,6 @@ function removeEspacosEmBranco($valor) {
 }
 
 if (isset($_FILES['pic'])) {
-    //$ext = strtolower(substr($_FILES['pic']['name'], - 4)); // Pegando extensão do arquivo
-    //$new_name = date("Y.m.d-H.i.s") . $ext; // Definindo um novo nome para o arquivo
     $new_name = strtolower($_FILES['pic']['name']);// . $ext; // Definindo um novo nome para o arquivo
     $new_name = removeEspacosEmBranco($new_name);
     $new_name = str_replace("[^a-zA-Z0-9_.]", "", strtr($new_name, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC_"));

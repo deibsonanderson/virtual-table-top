@@ -143,5 +143,5 @@ $query = mysqli_query($conexao, "SELECT codigo, titulo, anotacao, date_format(da
 </body>
 </html>
 <?php
-// mysqli_close($conexao);
+ mysqli_close($conexao);
 ?>

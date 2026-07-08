@@ -1,5 +1,4 @@
 <?php
-//session_start();
 function debug($value){
 	var_dump($value);
 	echo '<pre>';
@@ -43,18 +42,15 @@ if(isset($_POST)){
 		break;
 		
 		case('remove'):
-		    //unset($_SESSION);
 		    mysqli_query($conexao, "DELETE FROM `token` WHERE `codigo` = '".$_POST['codigo']."'");
 		    mysqli_query($conexao, "UPDATE `sessao` SET `data_atualizacao` = NOW()  WHERE `codigo` = '".$_POST['sessao']."' ");
 		break;
 		
 		case('update_map'):
-		    //unset($_SESSION);
 		    mysqli_query($conexao, "UPDATE `sessao` SET `mapa` = '".$_POST['mapa']."', `data_atualizacao` = NOW()  WHERE `codigo` = '".$_POST['sessao']."' ");
 	    break;
 	    
 		case('zoom_mapa'):
-		    //unset($_SESSION);
 		    mysqli_query($conexao, "UPDATE `sessao` SET `zoom` = '".$_POST['zoom']."', `data_atualizacao` = NOW()  WHERE `codigo` = '".$_POST['sessao']."' ");
 	    break;
 	    
@@ -77,14 +73,8 @@ if(isset($_POST)){
 			if (time() - $startTime >= $timeout) {
 				echo $clientData;
 			}
-	    break;
-		
-	}
-	
+	    break;		
+	}	
 }
-
 mysqli_close($conexao);
-
-
-
 ?>
