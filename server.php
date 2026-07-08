@@ -59,9 +59,24 @@ if(isset($_POST)){
 	    break;
 	    
 		case('sicronizar'):
-		    $query = mysqli_query($conexao, "SELECT data_atualizacao FROM sessao WHERE codigo = '".$_POST['sessao']."' ");
-		    $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
-		    echo $row["data_atualizacao"];
+			$timeout = 15;
+			$startTime = time();
+			$clientData = isset($_POST['data_atualizacao']) ? $_POST['data_atualizacao'] : '';
+			
+			while (time() - $startTime < $timeout) {
+				$query = mysqli_query($conexao, "SELECT data_atualizacao FROM sessao WHERE codigo = '".$_POST['sessao']."' ");
+				$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
+				
+				if ($row && $row["data_atualizacao"] != $clientData) {
+					echo $row["data_atualizacao"];
+					break;
+				}
+				sleep(1);
+			}
+			
+			if (time() - $startTime >= $timeout) {
+				echo $clientData;
+			}
 	    break;
 		
 	}

@@ -41,7 +41,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 
 	$(function() {
 		getNotes(<?php echo $sessao; ?>);		
-		setInterval(function () {sicronizar(<?php echo $sessao; ?>);}, 5000);
+		sicronizar(<?php echo $sessao; ?>);
 	});
 	
 	function getCode(){
@@ -235,28 +235,31 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	}
 	
 	function sicronizar(sessao){
+		var dat = $("#data_atualizacao").val();
 	    $.ajax({
 			url: path,
 			type: 'POST',
 			data: {
 			  tipo: 'sicronizar',
-			  sessao: sessao,			  
+			  sessao: sessao,
+			  data_atualizacao: dat
 			},
 			headers: {
 				"x-access-token":token
 			},			
 			success: function(result) {
-				//alert(result);
-				var dat = $("#data_atualizacao").val();
-				if(dat != result){
+				if(dat != result && result != ''){
 					$("#data_atualizacao").val(result);
-					getNotes(<?php echo $sessao; ?>);
-					
+					getNotes(sessao);
 				}
-				
 			},
-			beforeSend: function() {},
-			complete: function() {}
+			error: function() {
+				// Lidar com erro silenciosamente
+			},
+			complete: function(jqXHR, textStatus) {
+				var delay = (textStatus === 'error') ? 5000 : 500;
+				setTimeout(function(){ sicronizar(sessao); }, delay);
+			}
 		});	
 	}
 	
