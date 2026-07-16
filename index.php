@@ -2,18 +2,18 @@
 include('./lang.php');
 include('./database.php');
 if (isset($_GET['del'])) {
-    mysqli_query($connection, "DELETE FROM sessao WHERE codigo = '".$_GET['del']."'");
-    mysqli_query($connection, "DELETE FROM `token` WHERE `sessao` = '".$_GET['del']."'");
+    mysqli_query($connection, "DELETE FROM tb_vtt_session WHERE code = '".$_GET['del']."'");
+    mysqli_query($connection, "DELETE FROM `tb_vtt_token` WHERE `session` = '".$_GET['del']."'");
 }
 
 if (isset($_POST['name'])) {
     $date = new DateTime();
-    $sql = "INSERT INTO `sessao` (`codigo`, `nome`, `data_criacao`, `data_atualizacao`, `zoom`, `mapa`) VALUES ";
+    $sql = "INSERT INTO `tb_vtt_session` (`code`, `name`, `created_at`, `updated_at`, `zoom`, `map`) VALUES ";
     $sql .= " ('".$date->getTimestamp()."', '".$_POST['name']."', NOW(), NOW(), '1000', 'defaut.jpg'); ";
     mysqli_query($connection, $sql);
 }
 
-$query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criacao, '%d/%m/%Y %H:%i:%s') as data_criacao, date_format(data_atualizacao, '%d/%m/%Y %H:%i:%s') as data_atualizacao  FROM sessao ");
+$query = mysqli_query($connection, "SELECT code, name, date_format(created_at, '%d/%m/%Y %H:%i:%s') as created_at, date_format(updated_at, '%d/%m/%Y %H:%i:%s') as updated_at  FROM tb_vtt_session ");
 ?>
 <!doctype html>
 <html lang="en">
@@ -90,13 +90,13 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 					?>
 						<tr>
 							<th scope="row"><?php echo $count++;?></th>
-							<td><?php echo $row["codigo"]; ?></td>
-							<td><?php echo $row["nome"]; ?></td>
-							<td><?php echo $row["data_criacao"]; ?></td>
-							<td><?php echo $row["data_atualizacao"]; ?></td>
-							<td><a href="./virtual-table.php?session=<?php echo $row["codigo"]; ?>"><i class="fa-solid fa-gamepad"></i> <?php echo TXT_VIRTUAL_TABLE_LINK; ?></a></td>
+							<td><?php echo $row["code"]; ?></td>
+							<td><?php echo $row["name"]; ?></td>
+							<td><?php echo $row["created_at"]; ?></td>
+							<td><?php echo $row["updated_at"]; ?></td>
+							<td><a href="./virtual-table.php?session=<?php echo $row["code"]; ?>"><i class="fa-solid fa-gamepad"></i> <?php echo TXT_VIRTUAL_TABLE_LINK; ?></a></td>
 							<td>
-								<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./?del=<?php echo $row["codigo"]; ?>')"><i class="fa-solid fa-trash"></i> <?php echo TXT_REMOVE; ?></button>        					
+								<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./?del=<?php echo $row["code"]; ?>')"><i class="fa-solid fa-trash"></i> <?php echo TXT_REMOVE; ?></button>        					
 							</td>
 						</tr>
 					<?php

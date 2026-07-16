@@ -3,16 +3,16 @@ include('./lang.php');
 include ('./database.php');
 
 if (isset($_GET['del'])) {
-    mysqli_query($connection, "DELETE FROM anotacao WHERE codigo = '" . $_GET['del'] . "'");
+    mysqli_query($connection, "DELETE FROM tb_vtt_note WHERE code = '" . $_GET['del'] . "'");
 }
 
 if (isset($_POST['title'])) {
-    $sql = "INSERT INTO `anotacao` (`titulo`, `anotacao`, `data_cadastro`) VALUES ";
+    $sql = "INSERT INTO `tb_vtt_note` (`title`, `note`, `created_at`) VALUES ";
     $sql .= " ('" . $_POST['title'] . "', '" . $_POST['note'] . "', NOW()); ";
     mysqli_query($connection, $sql);
 }
 
-$query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format(data_cadastro, '%d/%m/%Y %H:%i:%s') as data_cadastro FROM anotacao ");
+$query = mysqli_query($connection, "SELECT code, title, note, date_format(created_at, '%d/%m/%Y %H:%i:%s') as created_at FROM tb_vtt_note ");
 
 ?>
 <!doctype html>
@@ -97,10 +97,10 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 				?>
 				<div style="background: rgba(0,0,0,0.2); border: 1px solid var(--obr-border); border-radius: var(--obr-radius); padding: 15px; margin-bottom: 15px;">
 					<div class="flex-between" style="margin-bottom: 10px;">
-						<h5 style="margin: 0; color: var(--obr-primary);"><?php echo $row["titulo"]; ?></h5>
-						<button type="button" class="obr-btn-icon" style="color: var(--obr-danger);" onclick="removeItem('./notes.php?del=<?php echo $row["codigo"]; ?>')" title="Remover"><i class="fa-solid fa-trash"></i></button>
+						<h5 style="margin: 0; color: var(--obr-primary);"><?php echo $row["title"]; ?></h5>
+						<button type="button" class="obr-btn-icon" style="color: var(--obr-danger);" onclick="removeItem('./notes.php?del=<?php echo $row["code"]; ?>')" title="Remover"><i class="fa-solid fa-trash"></i></button>
 					</div>
-					<p style="margin: 0; color: var(--obr-text); white-space: pre-wrap;"><?php echo $row["anotacao"]; ?></p>
+					<p style="margin: 0; color: var(--obr-text); white-space: pre-wrap;"><?php echo $row["note"]; ?></p>
 				</div>
 				<?php
 				}

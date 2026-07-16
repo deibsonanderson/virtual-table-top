@@ -5,7 +5,7 @@ $mapsPath = "./imagens/mapas/";
 
 include('./lang.php');
 include('./database.php');
-$query = mysqli_query($connection, "SELECT mapa, zoom, data_atualizacao FROM sessao WHERE codigo = '".$session."' ");
+$query = mysqli_query($connection, "SELECT map, zoom, updated_at FROM tb_vtt_session WHERE code = '".$session."' ");
 $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 ?>
 <!doctype html>
@@ -130,8 +130,8 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 		image = image.replace('url("https://rpg.elainelalegourmet.com.br/virtual-table-top/<?php echo $tokensPath; ?>', '');
 		image = image.replace('")', '');
 		image = image.substr(0, (image.length-2));
-		var session = $(element).attr('sessao');
-		var title = $(element).attr('titulo');
+		var session = $(element).attr('session');
+		var title = $(element).attr('title');
 		$.ajax({
 			url: path,
 			type: 'POST',
@@ -187,7 +187,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 			alert('<?php echo TXT_ALERT_TOKEN_TITLE; ?>');
 		} else {
         
-    		$('body').append('<div id="box-'+codeBox+'" sessao="'+session+'" titulo="'+title+'" class="ui-widget-content box" style="cursor: pointer; position: absolute;background-size: 100% 100%;"><span class="sombra" style="top: -41px;left: 0px; position: relative;color: #FFF; white-space: nowrap; "><b>'+title+'&nbsp;&nbsp;</b><img onclick="remove('+codeBox+','+session+')" style="width:13px;" src="./imagens/close.png"></span></div>');
+    		$('body').append('<div id="box-'+codeBox+'" session="'+session+'" title="'+title+'" class="ui-widget-content box" style="cursor: pointer; position: absolute;background-size: 100% 100%;"><span class="sombra" style="top: -41px;left: 0px; position: relative;color: #FFF; white-space: nowrap; "><b>'+title+'&nbsp;&nbsp;</b><img onclick="remove('+codeBox+','+session+')" style="width:13px;" src="./imagens/close.png"></span></div>');
     		
     		mountResizable(codeBox);
     
@@ -225,7 +225,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	}
 	
 	function synchronize(session){
-		var lastUpdateDate = $("#data_atualizacao").val();
+		var lastUpdateDate = $("#updated_at").val();
 	    $.ajax({
 			url: path,
 			type: 'POST',
@@ -239,7 +239,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 			},			
 			success: function(result) {
 				if(lastUpdateDate != result && result != ''){
-					$("#data_atualizacao").val(result);
+					$("#updated_at").val(result);
 					getNotes(session);
 				}
 			},
@@ -255,7 +255,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	
 	function maps(session){
 		var map = $('#mapas').children("option:selected").val();
-		$('#mapa').attr('src', './imagens/mapas/' + map + '');
+		$('#map').attr('src', './imagens/mapas/' + map + '');
 		$.ajax({
         	url: path,
         	type: 'POST',
@@ -274,14 +274,14 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	}
 
 	function zoom(info, session){
-		var size = $('#mapa').attr('width');
+		var size = $('#map').attr('width');
 		var number = parseInt(size);		
 		if(info == 1 && number >= 500){
 			number = (number - 50);
 		}else if(info == 2 && number <= 1500){
 			number = (number + 50);
 		}
-		$('#mapa').attr('width', number+'px');
+		$('#map').attr('width', number+'px');
 		$.ajax({
         	url: path,
         	type: 'POST',
@@ -314,12 +314,12 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 </script>
 </head>
 <body>
-	<input type="hidden" id="data_atualizacao" name="data_atualizacao" value="<?php echo $row["data_atualizacao"]; ?>"> 
+	<input type="hidden" id="updated_at" name="updated_at" value="<?php echo $row["updated_at"]; ?>"> 
 	
 	<div class="vtt-container">
 		<!-- Map Layer -->
 		<div class="vtt-map-layer">
-			<img id="mapa" width="<?php echo $row["zoom"]; ?>px" src="./imagens/mapas/<?php echo $row["mapa"]; ?>">
+			<img id="map" width="<?php echo $row["zoom"]; ?>px" src="./imagens/mapas/<?php echo $row["map"]; ?>">
 		</div>
 
 		<!-- UI Toggle Button -->
