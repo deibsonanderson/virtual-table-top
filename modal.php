@@ -5,7 +5,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content" style="color: black;">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Dicas da Bandeira
+				<h5 class="modal-title" id="exampleModalLongTitle"><?php echo TXT_FLAG_TIPS; ?>
 				</h5>
 				<button type="button" onclick="closeModal()" class="close"
 					data-dismiss="modal" aria-label="Close">
@@ -13,7 +13,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>				
+				<p><?php echo TXT_LOREM_IPSUM; ?></p>				
 			</div>			
 		</div>
 	</div>

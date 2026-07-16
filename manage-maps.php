@@ -1,4 +1,5 @@
 <?php
+include('./lang.php');
 $path = "./imagens/mapas/";
 $page = "manage-maps.php";
 
@@ -28,7 +29,7 @@ if (isset($_GET['pic'])) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mapas - Virtual Table Top</title>
+<title><?php echo TXT_PAGE_TITLE_MAPS; ?></title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
@@ -41,7 +42,7 @@ if (isset($_GET['pic'])) {
 
 	<nav class="navbar navbar-expand-lg" style="background-color: var(--obr-panel-bg) !important; border-bottom: 1px solid var(--obr-border);">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="index.php" style="color: var(--obr-text);">Virtual Table Top</a>
+			<a class="navbar-brand" href="index.php" style="color: var(--obr-text);"><?php echo TXT_VIRTUAL_TABLE_TOP; ?></a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -51,15 +52,14 @@ if (isset($_GET['pic'])) {
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="./index.php">Sessão</a></li>
+						href="./index.php"><?php echo TXT_SESSION_MENU; ?></a></li>
 					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
-						href="manage-maps.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manage-tokens.php">Incluir
-							Tokens</a></li>
+						href="manage-maps.php"><?php echo TXT_INCLUDE_MAPS; ?></a></li>
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manage-tokens.php"><?php echo TXT_INCLUDE_TOKENS; ?></a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						onclick="openModal()" href="#" >Ajuda</a></li>
+						onclick="openModal()" href="#" ><?php echo TXT_HELP; ?></a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="./notes.php">Anotações</a></li>						
+						href="./notes.php"><?php echo TXT_NOTES; ?></a></li>						
 				</ul>
 			</div>			
 		</div>
@@ -68,7 +68,7 @@ if (isset($_GET['pic'])) {
 	<div class="dashboard-container">
 		<div class="dashboard-card">
 			<div class="flex-between" style="margin-bottom: 20px;">
-				<h3 style="margin: 0;">Mapas</h3>
+				<h3 style="margin: 0;"><?php echo TXT_MAPS; ?></h3>
 			</div>
 
 			<form id="myForm" class="row g-2" method="POST" enctype="multipart/form-data" style="margin-bottom: 30px;">
@@ -76,7 +76,7 @@ if (isset($_GET['pic'])) {
 					<input class="obr-input" type="file" id="pic" name="pic" accept="image/*">
 				</div>
 				<div class="col-4">
-					<button type="submit" class="obr-btn w-100"><i class="fa-solid fa-upload"></i> Enviar imagem</button>
+					<button type="submit" class="obr-btn w-100"><i class="fa-solid fa-upload"></i> <?php echo TXT_SEND_IMAGE; ?></button>
 				</div>
 			</form>
 
@@ -85,9 +85,9 @@ if (isset($_GET['pic'])) {
 					<thead>
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Prévia</th>
-							<th scope="col">Nome</th>
-							<th scope="col">Ação</th>
+							<th scope="col"><?php echo TXT_PREVIEW; ?></th>
+							<th scope="col"><?php echo TXT_NAME; ?></th>
+							<th scope="col"><?php echo TXT_ACTION; ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -105,7 +105,7 @@ if (isset($_GET['pic'])) {
 										class="img-thumbnail" alt="..." style="background: transparent; border: 1px solid var(--obr-border);"></td>
 									<td><?php echo $map; ?></td>
 									<td>
-										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./<?php echo $page; ?>?pic=<?php echo $map; ?>')"><i class="fa-solid fa-trash"></i> remover</button>
+										<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./<?php echo $page; ?>?pic=<?php echo $map; ?>')"><i class="fa-solid fa-trash"></i> <?php echo TXT_REMOVE; ?></button>
 									</td>
 								</tr>
 								<?php
@@ -122,7 +122,7 @@ if (isset($_GET['pic'])) {
 
 	<script>
 	function removeItem(link){
-		if (window.confirm("Você realmente quer remover ?")) {
+		if (window.confirm("<?php echo TXT_CONFIRM_REMOVE; ?>")) {
 			window.location.href = link;
 		}
 	}

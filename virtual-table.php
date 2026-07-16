@@ -3,6 +3,7 @@ $session = $_GET["session"];
 $tokensPath = "imagens/tokens/";
 $mapsPath = "./imagens/mapas/";
 
+include('./lang.php');
 include('./database.php');
 $query = mysqli_query($connection, "SELECT mapa, zoom, data_atualizacao FROM sessao WHERE codigo = '".$session."' ");
 $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
@@ -18,7 +19,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <!-- Custom Owlbear Theme -->
 <link rel="stylesheet" href="./css/owlbear-theme.css">
-<title>Cenário RPG Virtual</title>
+<title><?php echo TXT_PAGE_TITLE_VIRTUAL_TABLE; ?></title>
 <link rel="stylesheet" href="./css/jquery-ui.css">
 <style>
 .box {
@@ -157,7 +158,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 	}
 	
 	function remove(codeBox, session){
-		if (window.confirm("Você realmente quer remover?")) {
+		if (window.confirm("<?php echo TXT_CONFIRM_REMOVE; ?>")) {
     		$.ajax({
     			url: path,
     			type: 'POST',
@@ -183,7 +184,7 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 		var title = $("#title").val();
 
 		if(title == '' || title == null){
-			alert('Informe um titulo para o token selecionado!');
+			alert('<?php echo TXT_ALERT_TOKEN_TITLE; ?>');
 		} else {
         
     		$('body').append('<div id="box-'+codeBox+'" sessao="'+session+'" titulo="'+title+'" class="ui-widget-content box" style="cursor: pointer; position: absolute;background-size: 100% 100%;"><span class="sombra" style="top: -41px;left: 0px; position: relative;color: #FFF; white-space: nowrap; "><b>'+title+'&nbsp;&nbsp;</b><img onclick="remove('+codeBox+','+session+')" style="width:13px;" src="./imagens/close.png"></span></div>');
@@ -323,26 +324,26 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 
 		<!-- UI Toggle Button -->
 		<div class="floating-panel-bottom-left obr-panel" style="padding: 5px;">
-			<button class="obr-btn-icon" onclick="toggleUI()" title="Alternar Interface">
+			<button class="obr-btn-icon" onclick="toggleUI()" title="<?php echo TXT_TOGGLE_UI; ?>">
 				<i id="toggle-ui-icon" class="fa-solid fa-eye"></i>
 			</button>
 		</div>
 
 		<!-- Left Toolbar -->
 		<div class="floating-toolbar-left obr-panel">
-			<a href="./index.php" class="obr-btn-icon" title="Sessões"><i class="fa-solid fa-house"></i></a>
-			<a href="manage-maps.php" class="obr-btn-icon" title="Incluir Mapas"><i class="fa-solid fa-map"></i></a>
-			<a href="manage-tokens.php" class="obr-btn-icon" title="Incluir Tokens"><i class="fa-solid fa-chess-knight"></i></a>
-			<a href="./notes.php" class="obr-btn-icon" title="Anotações"><i class="fa-solid fa-book"></i></a>
-			<button class="obr-btn-icon" onclick="openModal()" title="Ajuda"><i class="fa-solid fa-circle-info"></i></button>
+			<a href="./index.php" class="obr-btn-icon" title="<?php echo TXT_SESSIONS; ?>"><i class="fa-solid fa-house"></i></a>
+			<a href="manage-maps.php" class="obr-btn-icon" title="<?php echo TXT_INCLUDE_MAPS; ?>"><i class="fa-solid fa-map"></i></a>
+			<a href="manage-tokens.php" class="obr-btn-icon" title="<?php echo TXT_INCLUDE_TOKENS; ?>"><i class="fa-solid fa-chess-knight"></i></a>
+			<a href="./notes.php" class="obr-btn-icon" title="<?php echo TXT_NOTES; ?>"><i class="fa-solid fa-book"></i></a>
+			<button class="obr-btn-icon" onclick="openModal()" title="<?php echo TXT_HELP; ?>"><i class="fa-solid fa-circle-info"></i></button>
 		</div>
 
 		<!-- Top Right Panel: Tokens & Maps -->
 		<div class="floating-panel-top-right obr-panel">
 			<div style="display: flex; flex-direction: column; gap: 10px;">
-				<h6 style="margin: 0; font-size: 14px; color: var(--obr-text-muted);">Tokens</h6>
+				<h6 style="margin: 0; font-size: 14px; color: var(--obr-text-muted);"><?php echo TXT_TOKENS; ?></h6>
 				<select id="personagem" name="personagem" class="obr-select">
-					<option value=''>Selecione um token</option>
+					<option value=''><?php echo TXT_SELECT_TOKEN; ?></option>
 					<?php 
 					if (is_dir('./'.$tokensPath)) {
 						$dirTokens = dir('./'.$tokensPath);
@@ -355,18 +356,18 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 					}
 					?>
 				</select>
-				<input class="obr-input" type="text" id="title" name="title" placeholder="Nome do token">
+				<input class="obr-input" type="text" id="title" name="title" placeholder="<?php echo TXT_TOKEN_NAME_PLACEHOLDER; ?>">
 				<button type="button" class="obr-btn" onclick="create(getCode(), <?php echo $session; ?>);">
-					<i class="fa-solid fa-plus"></i> Incluir Token
+					<i class="fa-solid fa-plus"></i> <?php echo TXT_INCLUDE_TOKEN; ?>
 				</button>
 			</div>
 			
 			<hr style="border-color: var(--obr-border); margin: 0;">
 
 			<div style="display: flex; flex-direction: column; gap: 10px;">
-				<h6 style="margin: 0; font-size: 14px; color: var(--obr-text-muted);">Mapa</h6>
+				<h6 style="margin: 0; font-size: 14px; color: var(--obr-text-muted);"><?php echo TXT_MAP; ?></h6>
 				<select id="mapas" name="mapas" class="obr-select" onChange="maps(<?php echo $session; ?>)">
-					<option value="defaut.jpg">Selecione um Mapa</option>
+					<option value="defaut.jpg"><?php echo TXT_SELECT_MAP; ?></option>
 					<?php 
 					if (is_dir($mapsPath)) {
 						$dirMaps = dir($mapsPath);
@@ -384,16 +385,16 @@ $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
 
 		<!-- Bottom Right Panel: Zoom & Sync -->
 		<div class="floating-panel-bottom-right obr-panel">
-			<button type="button" class="obr-btn-icon" onclick="zoom(1, <?php echo $session; ?>)" title="Diminuir Zoom">
+			<button type="button" class="obr-btn-icon" onclick="zoom(1, <?php echo $session; ?>)" title="<?php echo TXT_ZOOM_OUT; ?>">
 				<i class="fa-solid fa-minus"></i>
 			</button>
 			<span id="view-zoom" class="zoom-display"><?php echo $row["zoom"]; ?>px</span>
-			<button type="button" class="obr-btn-icon" onclick="zoom(2, <?php echo $session; ?>)" title="Aumentar Zoom">
+			<button type="button" class="obr-btn-icon" onclick="zoom(2, <?php echo $session; ?>)" title="<?php echo TXT_ZOOM_IN; ?>">
 				<i class="fa-solid fa-plus"></i>
 			</button>
 			<div style="width: 1px; height: 24px; background: var(--obr-border); margin: 0 10px;"></div>
-			<button type="button" class="obr-btn" onclick="getNotes(<?php echo $session; ?>);" title="Sincronizar Manualmente">
-				<i class="fa-solid fa-rotate"></i> Sincronizar
+			<button type="button" class="obr-btn" onclick="getNotes(<?php echo $session; ?>);" title="<?php echo TXT_SYNC_MANUAL; ?>">
+				<i class="fa-solid fa-rotate"></i> <?php echo TXT_SYNC; ?>
 			</button>
 		</div>
 	</div>

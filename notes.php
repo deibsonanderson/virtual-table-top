@@ -1,4 +1,5 @@
 <?php
+include('./lang.php');
 include ('./database.php');
 
 if (isset($_GET['del'])) {
@@ -19,7 +20,7 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Anotações - Virtual Table Top</title>
+<title><?php echo TXT_PAGE_TITLE_NOTES; ?></title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
@@ -31,7 +32,7 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 <body>
 	<nav class="navbar navbar-expand-lg" style="background-color: var(--obr-panel-bg) !important; border-bottom: 1px solid var(--obr-border);">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#" style="color: var(--obr-text);">Virtual Table Top</a>
+			<a class="navbar-brand" href="#" style="color: var(--obr-text);"><?php echo TXT_VIRTUAL_TABLE_TOP; ?></a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -41,15 +42,14 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="./index.php">Sessão</a></li>
+						href="./index.php"><?php echo TXT_SESSION_MENU; ?></a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="manage-maps.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manage-tokens.php">Incluir
-							Tokens</a></li>
+						href="manage-maps.php"><?php echo TXT_INCLUDE_MAPS; ?></a></li>
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manage-tokens.php"><?php echo TXT_INCLUDE_TOKENS; ?></a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						onclick="openModal()" href="#">Ajuda</a></li>
+						onclick="openModal()" href="#"><?php echo TXT_HELP; ?></a></li>
 					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
-						href="./notes.php">Anotações</a></li>
+						href="./notes.php"><?php echo TXT_NOTES; ?></a></li>
 				</ul>
 			</div>
 		</div>
@@ -58,7 +58,7 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 	<div class="dashboard-container">
 		<div class="dashboard-card">
 			<div class="flex-between" style="margin-bottom: 20px;">
-				<h3 style="margin: 0;">Anotações</h3>
+				<h3 style="margin: 0;"><?php echo TXT_NOTES; ?></h3>
 			</div>
 
 			<form id="myform" class="row g-2" method="POST" enctype="multipart/form-data">
@@ -66,25 +66,25 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 					<div class="col-12" style="margin-bottom: 15px;">
 						<button class="obr-btn" type="button"
 							data-toggle="collapse" data-target="#collapseExample"
-							aria-expanded="false" aria-controls="collapseExample" onclick="showHide(this)"><i class="fa-solid fa-plus"></i> Nova Anotação</button>
+							aria-expanded="false" aria-controls="collapseExample" onclick="showHide(this)"><i class="fa-solid fa-plus"></i> <?php echo TXT_NEW_NOTE; ?></button>
 					</div>
 				</div>
 				<div id="collapseExample" class="collapse" style="width: 100%; margin-bottom: 20px; padding: 15px; border: 1px solid var(--obr-border); border-radius: var(--obr-radius);">
 					<div class="row">
 						<div class="col-12" style="margin-bottom: 15px;">
-							<label for="title" class="form-label" style="color: var(--obr-text-muted);">Título</label>
+							<label for="title" class="form-label" style="color: var(--obr-text-muted);"><?php echo TXT_NOTE_TITLE; ?></label>
 							<input type="text" name="title" id="title" class="obr-input" placeholder="">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12" style="margin-bottom: 15px;">
-							<label for="note" class="form-label" style="color: var(--obr-text-muted);">Anotação</label>
+							<label for="note" class="form-label" style="color: var(--obr-text-muted);"><?php echo TXT_NOTE_TEXT; ?></label>
 							<textarea class="obr-input" name="note" id="note" rows="3" style="resize: vertical;"></textarea>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<button class="obr-btn" onclick="add(this);" type="button"><i class="fa-solid fa-check"></i> Salvar</button>
+							<button class="obr-btn" onclick="add(this);" type="button"><i class="fa-solid fa-check"></i> <?php echo TXT_SAVE; ?></button>
 						</div>
 					</div>
 				</div>
@@ -110,7 +110,7 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 	</div>
 	<script>
 	function removeItem(link){
-		if (window.confirm("Você realmente quer remover ?")) {
+		if (window.confirm("<?php echo TXT_CONFIRM_REMOVE; ?>")) {
 			window.location.href = link;
 		}
 	}
@@ -132,7 +132,7 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 		if($("#title").val() != null && $("#title").val() != ''){
 			document.getElementById("myform").submit();
 		}else{
-			alert("favor preencher o campo !!!");
+			alert("<?php echo TXT_FILL_FIELD; ?>");
 		}
 	}
 	</script>

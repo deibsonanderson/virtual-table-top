@@ -1,4 +1,5 @@
 <?php
+include('./lang.php');
 include('./database.php');
 if (isset($_GET['del'])) {
     mysqli_query($connection, "DELETE FROM sessao WHERE codigo = '".$_GET['del']."'");
@@ -19,7 +20,7 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sessão - Virtual Table Top</title>
+<title><?php echo TXT_PAGE_TITLE_SESSION; ?></title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="./css/bootstrap-5.2.0-dist/css/bootstrap.css">
@@ -31,7 +32,7 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 <body>
 	<nav class="navbar navbar-expand-lg" style="background-color: var(--obr-panel-bg) !important; border-bottom: 1px solid var(--obr-border);">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#" style="color: var(--obr-text);">Virtual Table Top</a>
+			<a class="navbar-brand" href="#" style="color: var(--obr-text);"><?php echo TXT_VIRTUAL_TABLE_TOP; ?></a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -41,15 +42,14 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link active" style="color: var(--obr-primary);" aria-current="page"
-						href="./index.php">Sessão</a></li>
+						href="./index.php"><?php echo TXT_SESSION_MENU; ?></a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="manage-maps.php">Incluir Mapas</a></li>
-					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manage-tokens.php">Incluir
-							Tokens</a></li>
+						href="manage-maps.php"><?php echo TXT_INCLUDE_MAPS; ?></a></li>
+					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" href="manage-tokens.php"><?php echo TXT_INCLUDE_TOKENS; ?></a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						onclick="openModal()" href="#" >Ajuda</a></li>
+						onclick="openModal()" href="#" ><?php echo TXT_HELP; ?></a></li>
 					<li class="nav-item"><a class="nav-link" style="color: var(--obr-text-muted);" aria-current="page"
-						href="./notes.php">Anotações</a></li>						
+						href="./notes.php"><?php echo TXT_NOTES; ?></a></li>						
 				</ul>
 			</div>			
 		</div>
@@ -58,15 +58,15 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 	<div class="dashboard-container">
 		<div class="dashboard-card">
 			<div class="flex-between" style="margin-bottom: 20px;">
-				<h3 style="margin: 0;">Sessões</h3>
+				<h3 style="margin: 0;"><?php echo TXT_SESSIONS; ?></h3>
 			</div>
 			
 			<form id="myForm" class="row g-2" method="POST" enctype="multipart/form-data" style="margin-bottom: 30px;">
 				<div class="col-8">
-					<input class="obr-input" type="text" id="name" name="name" placeholder="Nome da Sessão">
+					<input class="obr-input" type="text" id="name" name="name" placeholder="<?php echo TXT_SESSION_NAME_PLACEHOLDER; ?>">
 				</div>
 				<div class="col-4">
-					<button type="button" onclick="add(this);" class="obr-btn w-100"><i class="fa-solid fa-plus"></i> Incluir identificador</button>
+					<button type="button" onclick="add(this);" class="obr-btn w-100"><i class="fa-solid fa-plus"></i> <?php echo TXT_INCLUDE_IDENTIFIER; ?></button>
 				</div>
 			</form>
 
@@ -75,12 +75,12 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 					<thead>
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Codigo</th>
-							<th scope="col">Nome</th>
-							<th scope="col">Data da criação</th>
-							<th scope="col">Atualização</th>
-							<th scope="col">Link</th>
-							<th scope="col">Ação</th>
+							<th scope="col"><?php echo TXT_CODE; ?></th>
+							<th scope="col"><?php echo TXT_NAME; ?></th>
+							<th scope="col"><?php echo TXT_CREATION_DATE; ?></th>
+							<th scope="col"><?php echo TXT_UPDATE_DATE; ?></th>
+							<th scope="col"><?php echo TXT_LINK; ?></th>
+							<th scope="col"><?php echo TXT_ACTION; ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -94,9 +94,9 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 							<td><?php echo $row["nome"]; ?></td>
 							<td><?php echo $row["data_criacao"]; ?></td>
 							<td><?php echo $row["data_atualizacao"]; ?></td>
-							<td><a href="./virtual-table.php?session=<?php echo $row["codigo"]; ?>"><i class="fa-solid fa-gamepad"></i> Mesa Virtual</a></td>
+							<td><a href="./virtual-table.php?session=<?php echo $row["codigo"]; ?>"><i class="fa-solid fa-gamepad"></i> <?php echo TXT_VIRTUAL_TABLE_LINK; ?></a></td>
 							<td>
-								<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./?del=<?php echo $row["codigo"]; ?>')"><i class="fa-solid fa-trash"></i> remover</button>        					
+								<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./?del=<?php echo $row["codigo"]; ?>')"><i class="fa-solid fa-trash"></i> <?php echo TXT_REMOVE; ?></button>        					
 							</td>
 						</tr>
 					<?php
@@ -110,7 +110,7 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 
 	<script>
 	function removeItem(link){
-		if (window.confirm("Você realmente quer remover ?")) {
+		if (window.confirm("<?php echo TXT_CONFIRM_REMOVE; ?>")) {
 			window.location.href = link;
 		}
 	}
@@ -119,7 +119,7 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 		if($("#name").val() != null && $("#name").val() != ''){
 			document.getElementById("myForm").submit();
 		}else{
-			alert("favor preencher o campo !!!");
+			alert("<?php echo TXT_FILL_FIELD; ?>");
 		}
 	}
 	</script>
