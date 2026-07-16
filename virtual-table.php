@@ -1,5 +1,5 @@
 <?php
-$session = $_GET["sessao"];
+$session = $_GET["session"];
 $tokensPath = "imagens/tokens/";
 $mapsPath = "./imagens/mapas/";
 

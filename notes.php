@@ -5,9 +5,9 @@ if (isset($_GET['del'])) {
     mysqli_query($connection, "DELETE FROM anotacao WHERE codigo = '" . $_GET['del'] . "'");
 }
 
-if (isset($_POST['titulo'])) {
+if (isset($_POST['title'])) {
     $sql = "INSERT INTO `anotacao` (`titulo`, `anotacao`, `data_cadastro`) VALUES ";
-    $sql .= " ('" . $_POST['titulo'] . "', '" . $_POST['anotacao'] . "', NOW()); ";
+    $sql .= " ('" . $_POST['title'] . "', '" . $_POST['note'] . "', NOW()); ";
     mysqli_query($connection, $sql);
 }
 
@@ -72,14 +72,14 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 				<div id="collapseExample" class="collapse" style="width: 100%; margin-bottom: 20px; padding: 15px; border: 1px solid var(--obr-border); border-radius: var(--obr-radius);">
 					<div class="row">
 						<div class="col-12" style="margin-bottom: 15px;">
-							<label for="titulo" class="form-label" style="color: var(--obr-text-muted);">Título</label>
-							<input type="text" name="titulo" id="titulo" class="obr-input" placeholder="">
+							<label for="title" class="form-label" style="color: var(--obr-text-muted);">Título</label>
+							<input type="text" name="title" id="title" class="obr-input" placeholder="">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12" style="margin-bottom: 15px;">
-							<label for="anotacao" class="form-label" style="color: var(--obr-text-muted);">Anotação</label>
-							<textarea class="obr-input" name="anotacao" id="anotacao" rows="3" style="resize: vertical;"></textarea>
+							<label for="note" class="form-label" style="color: var(--obr-text-muted);">Anotação</label>
+							<textarea class="obr-input" name="note" id="note" rows="3" style="resize: vertical;"></textarea>
 						</div>
 					</div>
 					<div class="row">
@@ -129,7 +129,7 @@ $query = mysqli_query($connection, "SELECT codigo, titulo, anotacao, date_format
 	}
 	
 	function add(element){
-		if($("#titulo").val() != null && $("#titulo").val() != ''){
+		if($("#title").val() != null && $("#title").val() != ''){
 			document.getElementById("myform").submit();
 		}else{
 			alert("favor preencher o campo !!!");

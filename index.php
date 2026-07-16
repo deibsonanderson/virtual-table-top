@@ -5,10 +5,10 @@ if (isset($_GET['del'])) {
     mysqli_query($connection, "DELETE FROM `token` WHERE `sessao` = '".$_GET['del']."'");
 }
 
-if (isset($_POST['nome'])) {
+if (isset($_POST['name'])) {
     $date = new DateTime();
     $sql = "INSERT INTO `sessao` (`codigo`, `nome`, `data_criacao`, `data_atualizacao`, `zoom`, `mapa`) VALUES ";
-    $sql .= " ('".$date->getTimestamp()."', '".$_POST['nome']."', NOW(), NOW(), '1000', 'defaut.jpg'); ";
+    $sql .= " ('".$date->getTimestamp()."', '".$_POST['name']."', NOW(), NOW(), '1000', 'defaut.jpg'); ";
     mysqli_query($connection, $sql);
 }
 
@@ -63,7 +63,7 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 			
 			<form id="myForm" class="row g-2" method="POST" enctype="multipart/form-data" style="margin-bottom: 30px;">
 				<div class="col-8">
-					<input class="obr-input" type="text" id="nome" name="nome" placeholder="Nome da Sessão">
+					<input class="obr-input" type="text" id="name" name="name" placeholder="Nome da Sessão">
 				</div>
 				<div class="col-4">
 					<button type="button" onclick="add(this);" class="obr-btn w-100"><i class="fa-solid fa-plus"></i> Incluir identificador</button>
@@ -94,7 +94,7 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 							<td><?php echo $row["nome"]; ?></td>
 							<td><?php echo $row["data_criacao"]; ?></td>
 							<td><?php echo $row["data_atualizacao"]; ?></td>
-							<td><a href="./virtual-table.php?sessao=<?php echo $row["codigo"]; ?>"><i class="fa-solid fa-gamepad"></i> Mesa Virtual</a></td>
+							<td><a href="./virtual-table.php?session=<?php echo $row["codigo"]; ?>"><i class="fa-solid fa-gamepad"></i> Mesa Virtual</a></td>
 							<td>
 								<button type="button" class="obr-btn obr-btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="removeItem('./?del=<?php echo $row["codigo"]; ?>')"><i class="fa-solid fa-trash"></i> remover</button>        					
 							</td>
@@ -116,7 +116,7 @@ $query = mysqli_query($connection, "SELECT codigo, nome, date_format(data_criaca
 	}
 
 	function add(element){
-		if($("#nome").val() != null && $("#nome").val() != ''){
+		if($("#name").val() != null && $("#name").val() != ''){
 			document.getElementById("myForm").submit();
 		}else{
 			alert("favor preencher o campo !!!");
